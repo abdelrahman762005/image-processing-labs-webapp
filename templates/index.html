@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Processing Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Changa:wght@500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="layout">
+    <header class="hero card">
+      <div class="hero-top">
+        <p class="eyebrow">CS303 / IMAGE PROCESSING LABS</p>
+        <div class="hero-badges">
+          <span>From Scratch Python</span>
+          <span>42+ Operations</span>
+          <span>Single Dashboard</span>
+        </div>
+      </div>
+      <h1>Image Processing Control Center</h1>
+      <p class="lead">
+        ارفع الصورة واضغط العملية المطلوبة. كل المعالجات هنا متنفذة بكود بايثون من الصفر، بدون دوال فلترة جاهزة.
+      </p>
+    </header>
+
+    <section class="stats card">
+      <div class="stat-item">
+        <span class="stat-value">From Scratch</span>
+        <span class="stat-label">Core Algorithms</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">Real-Time</span>
+        <span class="stat-label">Interactive Processing</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">Lab-Grade</span>
+        <span class="stat-label">Digital Image Pipeline</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">Single Hub</span>
+        <span class="stat-label">All Operations Dashboard</span>
+      </div>
+    </section>
+
+    <section class="panel card panel-input">
+      <div class="section-head">
+        <h2>Input + Parameters</h2>
+      </div>
+      <div class="field-grid">
+        <label>
+          Image A (Required)
+          <input type="file" id="image1" accept="image/*">
+        </label>
+        <label>
+          Image B (Optional)
+          <input type="file" id="image2" accept="image/*">
+        </label>
+        <label>
+          Constant
+          <input type="number" id="constant" value="40" min="0" max="255" step="0.1">
+        </label>
+        <label>
+          Threshold
+          <input type="number" id="threshold" value="128" min="0" max="255">
+        </label>
+        <label>
+          Kernel Size (Odd)
+          <input type="number" id="kernel_size" value="3" min="3" max="21" step="2">
+        </label>
+        <label>
+          Sigma
+          <input type="number" id="sigma" value="1.3" min="0.1" max="10" step="0.1">
+        </label>
+        <label>
+          Alpha (Blend)
+          <input type="number" id="alpha" value="0.6" min="0" max="1" step="0.05">
+        </label>
+        <label>
+          Noise Amount (0-1)
+          <input type="number" id="noise_amount" value="0.08" min="0" max="1" step="0.01">
+        </label>
+        <label>
+          Binary Threshold
+          <input type="number" id="binary_threshold" value="127" min="0" max="255">
+        </label>
+      </div>
+      <p class="note">Operations: blend/subtract/compare تحتاج Image B.</p>
+    </section>
+
+    <section class="panel card panel-ops">
+      <div class="section-head">
+        <h2>Operations Matrix</h2>
+      </div>
+
+      <article class="ops-block">
+        <h3>Basics + Channels</h3>
+        <div class="btn-grid">
+          <button data-op="gray_avg">Gray (Average)</button>
+          <button data-op="gray_weighted">Gray (Weighted)</button>
+          <button data-op="channel_r">Red Channel</button>
+          <button data-op="channel_g">Green Channel</button>
+          <button data-op="channel_b">Blue Channel</button>
+        </div>
+      </article>
+
+      <article class="ops-block">
+        <h3>Point Operations</h3>
+        <div class="btn-grid">
+          <button data-op="add_constant">Add Constant</button>
+          <button data-op="subtract_constant">Subtract Constant</button>
+          <button data-op="multiply_constant">Multiply</button>
+          <button data-op="divide_constant">Divide</button>
+          <button data-op="complement">Complement</button>
+          <button data-op="solarize_below">Solarize &lt; T</button>
+          <button data-op="solarize_above">Solarize &gt; T</button>
+        </div>
+      </article>
+
+      <article class="ops-block">
+        <h3>Histogram + Two Images</h3>
+        <div class="btn-grid">
+          <button data-op="histogram">Histogram</button>
+          <button data-op="hist_stretch">Histogram Stretch</button>
+          <button data-op="blend_add">Blend Add</button>
+          <button data-op="blend_weighted">Blend Weighted</button>
+          <button data-op="subtract_a_b">A - B</button>
+          <button data-op="subtract_b_a">B - A</button>
+          <button data-op="difference_abs">|A - B|</button>
+          <button data-op="metrics_compare">Compare Metrics</button>
+        </div>
+      </article>
+
+      <article class="ops-block">
+        <h3>Neighborhood + Convolution</h3>
+        <div class="btn-grid">
+          <button data-op="mean_filter">Mean Filter</button>
+          <button data-op="median_filter">Median Filter</button>
+          <button data-op="min_filter">Min Filter</button>
+          <button data-op="max_filter">Max Filter</button>
+          <button data-op="average_convolution">Average Convolution</button>
+          <button data-op="gaussian_convolution">Gaussian Convolution</button>
+        </div>
+      </article>
+
+      <article class="ops-block">
+        <h3>Noise + Restoration</h3>
+        <div class="btn-grid">
+          <button data-op="salt_pepper_noise">Add Salt &amp; Pepper</button>
+          <button data-op="restore_median">Restore (Median)</button>
+        </div>
+      </article>
+
+      <article class="ops-block">
+        <h3>Morphology</h3>
+        <div class="btn-grid">
+          <button data-op="dilation">Dilation</button>
+          <button data-op="erosion">Erosion</button>
+          <button data-op="opening">Opening</button>
+          <button data-op="closing">Closing</button>
+        </div>
+      </article>
+
+      <article class="ops-block">
+        <h3>Segmentation + Dithering</h3>
+        <div class="btn-grid">
+          <button data-op="threshold">Binary Threshold</button>
+          <button data-op="otsu">Otsu Threshold</button>
+          <button data-op="floyd_steinberg">Floyd-Steinberg Dither</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="result card panel-result">
+      <div class="result-head">
+        <h2>Preview + Diagnostics</h2>
+        <p id="status" class="status">Ready.</p>
+      </div>
+
+      <div class="preview-grid">
+        <figure>
+          <figcaption>Image A</figcaption>
+          <img id="preview-original" alt="Original preview">
+        </figure>
+        <figure id="preview-second-wrap" class="hidden">
+          <figcaption>Image B</figcaption>
+          <img id="preview-second" alt="Second image preview">
+        </figure>
+        <figure>
+          <figcaption>Result</figcaption>
+          <img id="preview-result" alt="Result preview">
+        </figure>
+      </div>
+
+      <figure id="hist-container" class="hidden">
+        <figcaption>Histogram</figcaption>
+        <img id="preview-hist" alt="Histogram preview">
+      </figure>
+
+      <div id="meta" class="meta"></div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
